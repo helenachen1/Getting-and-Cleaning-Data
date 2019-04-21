@@ -1,48 +1,31 @@
-The tidy dataset was obtained based on the database retrieved from the UCI Human Activity Recognition Using Smartfones Data Set. 
+The tidy dataset was obtained based on the database retrieved from the UCI Human Activity Recognition Using Smartfones Data Set. The original database contains 561 variables for the 10299 signals readings. 
 
-The original database contains 561 variables for the 10299 signals readings.The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. 
-Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
-Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+This tidy dataset only took the mean and standard deviation of each features, and the measurements are further summarized at the average level for each activity and each subject. 
 
-These signals were used to estimate variables of the feature vector for each pattern:'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+There are 68 variables of the output:
+ 1. subject: Subject 1-30: ID for volunteers participated in the experiment                                        
+ 2. activity: the type of activity a subject performed. There are 6 types: LAYING SITTING STANDING WALKING WALKING_DOWNSTAIRS WALKING_UPSTAIRS
+Variable in columns 3-68 has value between [-1,1], and the names have the following components:
+	Time: time domain signals
+	Frequency: frequency doman signals
+	Features (there are 10 features, see below for details): 
+		BodyAcceleration, GravityAcceleration, BodyAccelerationJerk, BodyGyroscope, BodyGyroscopeJerk, 
+		BodyAccelerationMagnitude, GravityAccelerationMagnitude, BodyAccelerationJerkMagnitude, BodyGyroscopeMagnitude, BodyGyroscopeJerkMagnitude
+	Mean: the mean value of a feature by activty and subject
+	Standard Deviation: the average standard deviation of a feature by activty and subject
+	X/Y/Z: in the direction X/Y/Z
+ 
+Features Details
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
 
-This dataset only took the mean and standard deviation of each features, and the variables are further summarized at the average level for each activity and each subject.
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. 
 
-The variables of the output:
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals TimeAccelerationXYZ and TimeGyroscopeXYZ. These time domain signals (denoted by Time) were captured at a constant rate of 50 Hz. 
 
-subject : the subject ID
-activityType : the activity type
-tBodyAcc.mean.X/Y/Z: the mean of body acceleration in the X/Y/Z direction (time domain signals) 
-tBodyAcc.std.X/Y/Z: the average standard deviation of body acceleration in the X/Y/Z direction (time domain signals)
-tGravityAcc.mean.X/Y/Z: the mean of gravity acceleration in the X/Y/Z direction (time domain signals)
-tGravityAcc.std.X/Y/Z: the average standard deviation of gravity acceleration in the X/Y/Z direction (time domain signals)
-tBodyAccJerk.mean.X/Y/Z: the mean of body linear acceleration jerk in the X/Y/Z direction (time domain signals)
-tBodyAccJerk.std.X/Y/Z: the average standard deviation of body linear acceleration jerk in the X/Y/Z direction (time domain signals)
-tBodyGyro.mean.X/Y/Z: the mean of body angular velocity in the X/Y/Z direction (time domain signals)
-tBodyGyro.std.X/Y/Z: the average standard deviation of body angular velocity in the X/Y/Z direction (time domain signals)
-tBodyGyroJerk.mean.X/Y/Z: the mean of body angular velocity jerk in the X/Y/Z direction (time domain signals)
-tBodyGyroJerk.std.X/Y/Z: the average standard deviation of body angular velocity jerk in the X/Y/Z direction (time domain signals)
-tBodyAccMag.mean: the mean of body acceleration magnitude (time domain signals)
-tBodyAccMag.std: the average standard deviation of body acceleration magnitude (time domain signals)
-tGravityAccMag.mean: the mean of gravity acceleration magnitude (time domain signals)
-tGravityAccMag.std: the average standard deviation of gravity acceleration magnitude (time domain signals)
-tBodyAccJerkMag.mean: the mean of body linear acceleration jerk magnitude (time domain signals)
-tBodyAccJerkMag.std: the average standard deviation of body linear acceleration jerk magnitude (time domain signals)
-tBodyGyroMag.mean: the mean of body angular velocity magnitude (time domain signals)
-tBodyGyroMag.std: the average standard deviation of body angular velocity magnitude (time domain signals)
-tBodyGyroJerkMag.mean: the mean of body angular velocity jerk magnitude (time domain signals)
-tBodyGyroJerkMag.std: the average standard deviation of body angular velocity jerk magnitude (time domain signals)
-fBodyAcc.mean.X/Y/Z: the mean of body acceleration in the X/Y/Z direction (frequency domain signals) 
-fBodyAcc.std.X/Y/Z: the average standard deviation of body acceleration in the X/Y/Z direction (frequency domain signals) 
-fBodyAccJerk.mean.X/Y/Z: the mean of body linear acceleration jerk in the X/Y/Z direction (frequency domain signals)
-fBodyAccJerk.std.X/Y/Z: the average standard deviation of body linear acceleration jerk in the X/Y/Z direction (frequency domain signals)
-fBodyGyro.mean.X/Y/Z: the mean of body angular velocity in the X/Y/Z direction (frequency domain signals)
-fBodyGyro.std.X/Y/Z: the average standard deviation of body angular velocity in the X/Y/Z direction (frequency domain signals)
-fBodyAccMag.mean: the mean of body acceleration magnitude (frequency domain signals)
-fBodyAccMag.std: the average standard deviation of body acceleration magnitude (frequency domain signals)
-fBodyAccJerkMag.mean: the mean of body linear acceleration jerk magnitude (frequency domain signals)
-fBodyAccJerkMag.std: the average standard deviation of body linear acceleration jerk magnitude (frequency domain signals)
-fBodyGyroMag.mean: the mean of body angular velocity magnitude (frequency domain signals)
-fBodyGyroMag.std: the average standard deviation of body angular velocity magnitude (frequency domain signals)
-fBodyGyroJerkMag.mean: the mean of body angular velocity jerk magnitude (frequency domain signals)
-fBodyGyroJerkMag.std: the average standard deviation of body angular velocity jerk magnitude (frequency domain signals)
+Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (TimeBodyAccelerationXYZ and TimeGravityAccelerationXYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (TimeBodyAccelerationJerkXYZ and TimeBodyGyroscopeJerkXYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (TimeBodyAccelerationMagnitude, TimeGravityAccelerationMagnitude, TimeBodyAccelerationJerkMagnitude, TimeBodyGyroscopeMagnitude, TimeBodyGyroscopeJerkMagnitude). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing FrequencyBodyAccelerationXYZ, FrequencyBodyAccelerationJerkXYZ, FrequencyBodyGyroscopeXYZ, FrquencyBodyAccelerationJerkMag, FrequencyBodyGyroscopeMagnitude, FrequencyBodyGyroscopeJerkMagnitude. (Note the 'Frequency' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:'XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+
