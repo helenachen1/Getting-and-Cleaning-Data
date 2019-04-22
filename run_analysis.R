@@ -1,4 +1,5 @@
 
+library(tidyverse)
 library(dplyr)
 
 ##### 1. download and unzip data
@@ -19,14 +20,16 @@ features <- read.table('UCI HAR Dataset/features.txt')
 activity_labels <- read.table('UCI HAR Dataset/activity_labels.txt',col.names = c("activityID","activityType"))
 
 # Train tables:
-x_train <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = features[,2])
-y_train <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = "activityID")
+x_train <- read.table("UCI HAR Dataset/train/X_train.txt")
+colnames(x_train) <- features[,2]
+y_train <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = "activity")
 subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt", col.names = "subject")
 
 
 # Test tables:
-x_test <- read.table("UCI HAR Dataset/test/X_test.txt", col.names = features[,2])
-y_test <- read.table("UCI HAR Dataset/test/y_test.txt", col.names = "activityID")
+x_test <- read.table("UCI HAR Dataset/test/X_test.txt")
+colnames(x_test) <- features[,2]
+y_test <- read.table("UCI HAR Dataset/test/y_test.txt", col.names = "activity")
 subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt", col.names = "subject")
 
 
@@ -38,19 +41,23 @@ data <- rbind(train, test)
 
 ##### 3. Extracts only the measurements on the mean and standard deviation for each measurement.
 # note: do not include the meanFreq columns
-tidydata <- data[,grepl("subject|activityID|mean[^F]|std", colnames(data))]
+tidydata <- data[,grepl("subject|activity|mean\\(\\)|std\\(\\)", colnames(data))]
 
 ##### 4. Add descriptive activity names to name the activities in the data set
-tidydata <- merge(activity_labels,tidydata,by="activityID")
+tidydata$activity <- activity_labels[tidydata$activity,2]
 
-# remove the excess . and extra Body in some variable names
-colnames(tidydata) <- gsub("\\.+",".", colnames(tidydata))
-colnames(tidydata) <- gsub("\\.$","", colnames(tidydata))
-colnames(tidydata) <- gsub("^f(Body)+","fBody", colnames(tidydata))
+# change the colnames to be more descriptive
+colnames(tidydata) <- gsub("^t","Time", colnames(tidydata))
+colnames(tidydata) <- gsub("Acc","Acceleration", colnames(tidydata))
+colnames(tidydata) <- gsub("Gyro","Gyroscope", colnames(tidydata))
+colnames(tidydata) <- gsub("Mag","Magnitude", colnames(tidydata))                     
+colnames(tidydata) <- gsub("^f(Body)+","FrequencyBody", colnames(tidydata))
+colnames(tidydata) <- gsub("mean\\(\\)","Mean", colnames(tidydata))
+colnames(tidydata) <- gsub("std\\(\\)","StandardDeviation", colnames(tidydata))
+colnames(tidydata) <- gsub("-","", colnames(tidydata))
  
 ##### 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject.
-tidydata_avg <- aggregate(tidydata[, !grepl('subject|activityID|activityType', colnames(tidydata))],  
-                          by=tidydata[, c("subject", "activityType")], FUN=mean, na.rm=TRUE)
+tidydata_avg <- aggregate(. ~ subject + activity, tidydata, FUN=mean, na.rm=TRUE)
 
 ##### 6. output tidy dataset
-write.table(tidydata_avg,file="tidyData_avg.txt",row.names = FALSE)
+write.table(tidydata_avg,file="tidydata.txt",row.names = FALSE)
